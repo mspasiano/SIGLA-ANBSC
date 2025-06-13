@@ -1,6 +1,6 @@
 # SIGLA-ANBSC
 
-**SIGLA-ANBSC** è una suite di applicazioni web dedicate alla gestione e alla stampa di dati per l'istituto ANBSC, basata su un'architettura containerizzata. Il progetto utilizza servizi basati su **WildFly**, **Spring Boot**, **Oracle XE** e un'interfaccia web in Angular.
+**SIGLA-ANBSC** è una suite di applicazioni web dedicate alla gestione e alla stampa di dati contabili, basata su un'architettura containerizzata. Il progetto utilizza servizi basati su **WildFly**, **Spring Boot**, **Oracle XE** e un'interfaccia web in Angular.
 
 ## 🧱 Struttura dei servizi
 
