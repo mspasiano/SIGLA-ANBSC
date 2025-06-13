@@ -1,17 +1,19 @@
 # SIGLA-ANBSC
 
-**SIGLA-ANBSC** è una suite di applicazioni web dedicate alla gestione e alla stampa di dati contabili, basata su un'architettura containerizzata. Il progetto utilizza servizi basati su **WildFly**, **Spring Boot**, **Oracle XE** e un'interfaccia web in Angular.
+**SIGLA-ANBSC** è una suite di applicazioni web dedicate alla gestione e alla stampa di dati contabili, basata su un'architettura containerizzata, tutti le immagini sono presenti all'interno dell'organizzazione GitHub [dell'Istituto Superiore di Sanità](https://github.com/istitutosuperioredisanita). 
+
+Il progetto utilizza servizi basati su **WildFly**, **Spring Boot**, **Oracle XE** e un'interfaccia web in Angular.
 
 ## 🧱 Struttura dei servizi
 
 Il progetto è composto dai seguenti container:
 
-| Servizio         | Descrizione                                                             |
-|------------------|--------------------------------------------------------------------------|
-| `sigla-oracle`   | Database Oracle 18 XE, inizializzato con script custom (`initdb-oracle`) |
-| `sigla-wildfly`  | Backend applicativo Java EE su WildFly (SIGLA Main)                      |
-| `sigla-ng`       | Frontend Angular, personalizzabile tramite `custom.css` e `it.json`      |
-| `sigla-print`    | Servizio di stampa/reportistica Spring Boot                              |
+| Servizio         | Descrizione                                                                              |Immagine                                              |
+|------------------|------------------------------------------------------------------------------------------|------------------------------------------------------|
+| `sigla-oracle`   | Database Oracle 18 XE, inizializzato con script custom (`initdb-oracle`)                 | `gvenzl/oracle-xe:18`                                |
+| `sigla-wildfly`  | Backend applicativo Java EE su WildFly (SIGLA Main)                                      | `ghcr.io/istitutosuperioredisanita/sigla-main:7.0.8` |
+| `sigla-ng`       | Frontend Angular, personalizzabile tramite [custom.css](custom.css) e [it.json](it.json) | `ghcr.io/istitutosuperioredisanita/sigla-ng:1.0.5`   |
+| `sigla-print`    | Servizio di stampa/reportistica Spring Boot                                              | `ghcr.io/istitutosuperioredisanita/sigla-print:2.2.2`|
 
 ---
 
