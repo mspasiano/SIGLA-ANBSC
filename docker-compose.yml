@@ -1,0 +1,109 @@
+services:
+  sigla-wildfly:
+    image: ghcr.io/istitutosuperioredisanita/sigla-main:7.0.8
+    mem_limit: 5g
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535    
+    container_name: sigla-wildfly
+    restart: unless-stopped     
+    environment:
+      - LC_ALL=it_IT.UTF-8
+      - LANG=it_IT.UTF-8
+      - LANGUAGE=it_IT:it
+      - THORNTAIL_DATASOURCES_DATA-SOURCES_SIGLA_CONNECTION-URL=jdbc:oracle:thin:@db:1521/XEPDB1
+      - THORNTAIL_PROJECT_STAGE=demo-oracle
+    ports:
+      - 8080:8080    
+    links:
+      - sigla-oracle:db
+    depends_on:
+      sigla-oracle:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "http://localhost:8080/SIGLA"]
+      interval: 30s
+      timeout: 10s
+      retries: 15
+      start_period: 90s        
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"
+
+  sigla-ng:
+    image: ghcr.io/istitutosuperioredisanita/sigla-ng:1.0.5
+    container_name: sigla-ng
+    restart: unless-stopped
+    environment:
+      - BASE_URL=http://localhost:8080
+      - INSTITUTE_ACRONYM=ANBSC
+    ports:
+      - 9000:80
+    volumes:
+      - ./custom.css:/usr/share/nginx/html/assets/css/custom.css    
+      - ./it.json:/usr/share/nginx/html/assets/i18n/it.json    
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"
+
+  sigla-print:
+    image: ghcr.io/istitutosuperioredisanita/sigla-print:2.2.2
+    container_name: sigla-print
+    mem_limit: 3g
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535    
+    restart: unless-stopped
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@db:1521/XEPDB1
+      - SPRING_DATASOURCE_USERNAME=SIGLA 
+      - SPRING_DATASOURCE_PASSWORD=siglapw 
+      - USER_COUNTRY=IT 
+      - USER_LANGUAGE=it 
+      - FILE_ENCODING=UTF8
+      - SPRING_PROFILES_ACTIVE=common,prod,github
+      - CNR_GITHUB_REPO=istitutosuperioredisanita/sigla-reports
+      - LOGGING_CONFIG=classpath:logback-local.xml
+      - CNR_FS_PATH=\tmp\stampez\
+    ports:
+      - 8081:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"
+    links:
+      - sigla-oracle:db
+    depends_on:
+      sigla-oracle:
+        condition: service_healthy
+      sigla-wildfly:
+        condition: service_healthy
+
+  sigla-oracle:
+    image: gvenzl/oracle-xe:18
+    container_name: sigla-oracle
+    restart: unless-stopped  
+    ports:
+      - 1521
+    environment:
+      - ORACLE_PASSWORD=MyPassword123
+    volumes:
+      - ./initdb-oracle:/container-entrypoint-initdb.d
+    shm_size: 3g
+    healthcheck:
+      test: timeout 5 bash -c 'cat < /dev/null > /dev/tcp/localhost/1521'
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1k"
+        max-file: "3"
