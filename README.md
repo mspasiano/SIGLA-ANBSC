@@ -51,12 +51,12 @@ Il primo avvio può richiedere alcuni minuti per inizializzare Oracle.
 
 ## 🌐 Accesso ai servizi
 
-| Servizio      | URL                        | Note                                     |
-|---------------|----------------------------|------------------------------------------|
-| Frontend UI   | http://localhost:9000      | Interfaccia principale SIGLA             |
-| Backend API   | http://localhost:8080/SIGLA| WildFly SIGLA backend                    |
-| Reportistica  | http://localhost:8081      | Servizio stampa (SIGLA Print)            |
-| Oracle DB     | `localhost:1521/XEPDB1`    | SID/PDB predefinito                      |
+| Servizio      | URL                        | Note                                                                             |
+|---------------|----------------------------|----------------------------------------------------------------------------------|
+| Frontend UI   | http://localhost:9000      | Interfaccia principale SIGLA, al primo accesso utilizzare l'utenza **ENTE:ENTE** |
+| Backend API   | http://localhost:8080/SIGLA| WildFly SIGLA backend                                                            |
+| Reportistica  | http://localhost:8081      | Servizio stampa (SIGLA Print)                                                    |
+| Oracle DB     | `localhost:1521/XEPDB1`    | SID/PDB predefinito                                                              |
 
 ---
 
@@ -122,6 +122,6 @@ Ogni servizio critico è monitorato per l'avvio corretto tramite `healthcheck`, 
 Per segnalazioni, problemi o contributi:
 
 1. Apri un'Issue nel repository GitHub
-2. Contatta i maintainer o l’ente responsabile (ANBSC / ISS)
+2. Contatta il maintainer @mspasiano 
 
 ---
